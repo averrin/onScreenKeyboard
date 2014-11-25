@@ -15,6 +15,9 @@ class keyboardStatus():
         self.myQueue=Queue.Queue()
 
     def openReadingLang(self):
+        import os
+        os.system('killall xinput 2>&1 > /dev/null')
+
         from subprocess import Popen,PIPE
         if not self.config.wm_is_unity:
             self.myLangProcess=Popen('while true; do xset -q'+'|'+'grep LED'+'|'+' awk \'{ print $10 }\''+'|'+'cut -c5; sleep 0.02; done',shell=True,stdout=subprocess.PIPE)
@@ -46,8 +49,8 @@ class keyboardStatus():
                             print "Current language is "+line
                         self.myQueue.put((-1,lang_index))
 
-        self.myQueue.queue.clear()
         self.myLangProcess.terminate()
+        self.myQueue.queue.clear()
         import os
         os.system('killall xinput 2>&1 > /dev/null')
         if self.config.debug:
@@ -73,8 +76,8 @@ class keyboardStatus():
                     key_presssed_index=int(line[7+word_index:].strip())
                     self.myQueue.put((key_presssed_index,0))
 
-        self.myQueue.queue.clear()
         self.myProcess.terminate()
+        self.myQueue.queue.clear()
         if self.config.debug:
             print 'Killed keys determination process!'
 
