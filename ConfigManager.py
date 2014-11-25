@@ -1,6 +1,7 @@
 __author__ = 'tsa'
 import re
 import ConfigParser
+import os
 
 def ConfigSectionMap(Config,section):
     dict1 = {}
@@ -17,7 +18,12 @@ def ConfigSectionMap(Config,section):
 
 
 class ConfigManager():
-    def __init__(self,filename):
+    def __init__(self):
+
+        filename='program.conf'
+        home = os.path.expanduser("~")
+        if os.path.isfile(home+'/.key_trainer/'+filename):
+            filename=home+'/.key_trainer/'+filename
         self._readProgConfigFromFile(filename)
         self.numOfLangs=len(self.index_to_key_name_dict[self.index_to_key_name_dict.keys()[0]])/2
 

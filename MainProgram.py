@@ -12,7 +12,7 @@ class ThreadedClient:
     def __init__(self, master):
         self.master = master
 
-        config=ConfigManager('program.conf')
+        config=ConfigManager()
         self.keyTrainer=keyboardStatus(config)
         keyTrainer=self.keyTrainer
 
