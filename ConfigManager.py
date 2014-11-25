@@ -57,12 +57,13 @@ class ConfigManager():
         else:
             self.sticky_key_behaviour = False
 
-        if "WINDOW MANAGER" in self.sections:
-            unity_is_wm=ConfigSectionMap(configParser, "WINDOW MANAGER")['unity']
-            if unity_is_wm=='1' or unity_is_wm=='True' or unity_is_wm=='true':
-                self.wm_is_unity = True
-            else:
-                self.wm_is_unity = False
+        import subprocess
+
+        p = subprocess.Popen('echo $XDG_CURRENT_DESKTOP', shell=True,stdout=subprocess.PIPE)
+        output, err = p.communicate()
+
+        if "Unity" in output:
+            self.wm_is_unity = True
         else:
             self.wm_is_unity = False
 
