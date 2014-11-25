@@ -4,9 +4,11 @@ import Queue
 from ConfigManager import ConfigManager
 from Tkinter import *
 import tkFont
+import time
 
 class GuiManager():
     def __init__(self,master,config,queue,keyTrainer):
+        self.master=master
         master.title("Keyboard")
         master.attributes('-topmost', 1)
         self.shift_key_codes=config.shift_keys
@@ -45,7 +47,30 @@ class GuiManager():
             for button_index in self.config.colored_keys:
                 if button_index in self.gui_all_buttons:
                     self.gui_all_buttons[button_index].configure(bg = self.config.colored_keys[button_index])
+        master.update_idletasks()
+        self.default_geometry=self.parse_geometry(master.geometry())
+        master.bind('<Enter>',self.mouse_entered)
+        master.bind('<Motion>',self.mouse_entered)
 
+        master.resizable(True,False)
+        self.resize_window_back()
+
+    def resize_window_back(self):
+        self.resize_y_of_window(self.default_geometry[1])
+        self.master.after(1000,self.resize_window_back)
+
+    def parse_geometry(self,in_geometry):
+        geometry_x_y=in_geometry[:in_geometry.find("+")]
+        geometry_x_y=geometry_x_y.split('x')
+        window_size=(int(geometry_x_y[0]),int(geometry_x_y[1]))
+        return window_size
+
+    def resize_y_of_window(self,y):
+        self.master.geometry(str(self.default_geometry[0])+'x'+str(y))
+        #self.master.update()
+
+    def mouse_entered(self,event):
+        self.resize_y_of_window(event.y)
 
     def reconfigure_text_on_buttons(self,config,shift_pressed,lang):
         for row_index in xrange(1,config.getNumOfRows()+1):
