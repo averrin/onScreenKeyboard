@@ -2,11 +2,6 @@ __author__ = 'tsa'
 from ConfigManager import ConfigManager
 from GuiManager import GuiManager
 from KeyboardStatus import keyboardStatus
-import Tkinter
-
-
-
-
 
 class ThreadedClient:
     def __init__(self, master):
@@ -37,8 +32,14 @@ class ThreadedClient:
             sys.exit(1)
         self.master.after(20, self.periodicCall)
 
-root = Tkinter.Tk()
-root.attributes("-alpha", 0.5)
-client = ThreadedClient(root)
+if __name__ == '__main__':
+    try:
+        import Tkinter
+        root = Tkinter.Tk()
+        root.attributes("-alpha", 0.5)
+        client = ThreadedClient(root)
+        root.mainloop()
+    except ImportError:
+        print("Please install tkinter for python, on Ubuntu, Mint do following:\n"
+              "sudo apt-get install python-tk")
 
-root.mainloop()

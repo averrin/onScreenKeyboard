@@ -1,3 +1,7 @@
 .idea/
 some_shit/
 /*.pyc
+main_keyboard_config.conf
+Todo.txt
+testConfigManager.py
+test_keyboard_config.conf
