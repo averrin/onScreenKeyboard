@@ -9,8 +9,10 @@ import time
 class GuiManager():
     def __init__(self,master,config,queue,keyTrainer):
         self.master=master
+
         master.title("Keyboard")
         master.attributes('-topmost', 1)
+
         self.shift_key_codes=config.shift_keys
         self.config=config
         self.queue=queue
@@ -27,14 +29,13 @@ class GuiManager():
         self.buttonFont=tkFont.Font(family=config.font_name,size=config.font_size)
         self.boldUnderscoredButtonFont=tkFont.Font(family=config.font_name,size=config.font_size,weight='bold',underline=1)
 
-        group = master
-
         for row_index in xrange(1,config.getNumOfRows()+1):
-            self.gui_rows[int(row_index)]=Frame(group)
+            self.gui_rows[int(row_index)]=Frame(master)
             self.gui_row_buttons[int(row_index)]=[]
             for button_num in xrange(1,config.getNumOfKeysInRow(row_index)+1):
                 newButton=Button(self.gui_rows[int(row_index)])
-
+                newButton.config(padx=6)
+                newButton.config(pady=2)
                 if (row_index,int(button_num)) in config.key_pos_to_index:
                     self.gui_all_buttons[config.key_pos_to_index[(row_index,int(button_num))]] = newButton
                 self.gui_row_buttons[int(row_index)].append(newButton)
@@ -47,13 +48,12 @@ class GuiManager():
             for button_index in self.config.colored_keys:
                 if button_index in self.gui_all_buttons:
                     self.gui_all_buttons[button_index].configure(bg = self.config.colored_keys[button_index])
+
         master.update_idletasks()
+
         self.default_geometry=self.parse_geometry(master.geometry())
         master.bind('<Enter>',self.mouse_entered)
         master.bind('<Motion>',self.mouse_entered)
-
-        master.resizable(True,False)
-        self.resize_window_back()
 
     def resize_window_back(self):
         self.resize_y_of_window(self.default_geometry[1])
@@ -66,7 +66,6 @@ class GuiManager():
 
     def resize_y_of_window(self,y):
         self.master.geometry(str(self.default_geometry[0])+'x'+str(y))
-        #self.master.update()
 
     def mouse_entered(self,event):
         self.resize_y_of_window(event.y)

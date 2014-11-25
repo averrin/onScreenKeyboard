@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 __author__ = 'tsa'
 from ConfigManager import ConfigManager
 from GuiManager import GuiManager
@@ -11,15 +12,8 @@ class ThreadedClient:
         self.keyTrainer=keyboardStatus(self.config)
         keyTrainer=self.keyTrainer
 
-        def kill_and_destroy():
-            self.running = 0
-            self.keyTrainer.stop_scan()
-            if self.config.debug:
-                print "Stopping scan..."
 
-            self.master.destroy()
-
-        master.protocol('WM_DELETE_WINDOW', kill_and_destroy)
+        master.protocol('WM_DELETE_WINDOW', self.kill_and_destroy)
 
         self.guiManager=GuiManager(master,self.config,keyTrainer.myQueue,keyTrainer)
 
@@ -27,18 +21,27 @@ class ThreadedClient:
 
         self.running = 1
         self.periodicCall()
+    def kill_and_destroy(self):
+        self.running = 0
+        self.keyTrainer.stop_scan()
+        if self.config.debug:
+            print "Stopping scan..."
+        self.master.destroy()
+
 
     def periodicCall(self):
         self.guiManager.processQueue()
         if not self.running:
-            import sys
-            sys.exit(1)
+            # import sys
+            # sys.exit(1)
+            self.kill_and_destroy()
         self.master.after(20, self.periodicCall)
 
 if __name__ == '__main__':
     try:
         import Tkinter
         root = Tkinter.Tk()
+
         root.attributes("-alpha", 0.5)
         client = ThreadedClient(root)
         root.mainloop()
