@@ -57,6 +57,18 @@ class ConfigManager():
         else:
             self.sticky_key_behaviour = False
 
+        if "KEYBOARD SETTINGS" in self.sections:
+            if 'button_padx' in ConfigSectionMap(configParser, "KEYBOARD SETTINGS"):
+                self.padx=int(ConfigSectionMap(configParser, "KEYBOARD SETTINGS")['button_padx'])
+            else:
+                self.padx=-1
+
+        if "KEYBOARD SETTINGS" in self.sections:
+            if 'button_pady' in ConfigSectionMap(configParser, "KEYBOARD SETTINGS"):
+                self.pady=int(ConfigSectionMap(configParser, "KEYBOARD SETTINGS")['button_pady'])
+            else:
+                self.pady=-1
+
         import subprocess
 
         p = subprocess.Popen('echo $XDG_CURRENT_DESKTOP', shell=True,stdout=subprocess.PIPE)

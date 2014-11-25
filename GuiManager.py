@@ -34,8 +34,10 @@ class GuiManager():
             self.gui_row_buttons[int(row_index)]=[]
             for button_num in xrange(1,config.getNumOfKeysInRow(row_index)+1):
                 newButton=Button(self.gui_rows[int(row_index)])
-                newButton.config(padx=6)
-                newButton.config(pady=2)
+                if self.config.padx!=-1:
+                    newButton.config(padx=self.config.padx)
+                if self.config.pady!=-1:
+                    newButton.config(pady=self.config.pady)
                 if (row_index,int(button_num)) in config.key_pos_to_index:
                     self.gui_all_buttons[config.key_pos_to_index[(row_index,int(button_num))]] = newButton
                 self.gui_row_buttons[int(row_index)].append(newButton)
