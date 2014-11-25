@@ -57,7 +57,6 @@ class GuiManager():
 
     def resize_window_back(self):
         self.resize_y_of_window(self.default_geometry[1])
-        self.master.after(1000,self.resize_window_back)
 
     def parse_geometry(self,in_geometry):
         geometry_x_y=in_geometry[:in_geometry.find("+")]
@@ -71,6 +70,7 @@ class GuiManager():
 
     def mouse_entered(self,event):
         self.resize_y_of_window(event.y)
+        self.master.after(1000,self.resize_window_back)
 
     def reconfigure_text_on_buttons(self,config,shift_pressed,lang):
         for row_index in xrange(1,config.getNumOfRows()+1):

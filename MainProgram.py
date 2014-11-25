@@ -7,18 +7,21 @@ class ThreadedClient:
     def __init__(self, master):
         self.master = master
 
-        config=ConfigManager()
-        self.keyTrainer=keyboardStatus(config)
+        self.config=ConfigManager()
+        self.keyTrainer=keyboardStatus(self.config)
         keyTrainer=self.keyTrainer
 
         def kill_and_destroy():
             self.running = 0
             self.keyTrainer.stop_scan()
+            if self.config.debug:
+                print "Stopping scan..."
+
             self.master.destroy()
 
         master.protocol('WM_DELETE_WINDOW', kill_and_destroy)
 
-        self.guiManager=GuiManager(master,config,keyTrainer.myQueue,keyTrainer)
+        self.guiManager=GuiManager(master,self.config,keyTrainer.myQueue,keyTrainer)
 
         keyTrainer.begin_scan()
 
@@ -42,4 +45,3 @@ if __name__ == '__main__':
     except ImportError:
         print("Please install tkinter for python, on Ubuntu, Mint do following:\n"
               "sudo apt-get install python-tk")
-
