@@ -75,7 +75,7 @@ class GuiManager():
 
 
     def mouse_entered(self,event):
-        self.resize_y_of_window(event.y)
+        self.resize_y_of_window(event.y-15)
         if not self.block_resizing:
             self.block_resizing=True
             self.master.after(self.config.hide_timeout,self.resize_window_back)
