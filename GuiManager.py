@@ -71,7 +71,7 @@ class GuiManager():
 
     def mouse_entered(self,event):
         self.resize_y_of_window(event.y)
-        self.master.after(1000,self.resize_window_back)
+        self.master.after(self.config.hide_timeout,self.resize_window_back)
 
     def reconfigure_text_on_buttons(self,config,shift_pressed,lang):
         for row_index in xrange(1,config.getNumOfRows()+1):

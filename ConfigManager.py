@@ -69,6 +69,12 @@ class ConfigManager():
             else:
                 self.pady=-1
 
+        if "KEYBOARD SETTINGS" in self.sections:
+            if 'hide_timeout' in ConfigSectionMap(configParser, "KEYBOARD SETTINGS"):
+                self.hide_timeout=int(ConfigSectionMap(configParser, "KEYBOARD SETTINGS")['hide_timeout'])
+            else:
+                self.hide_timeout=1000
+
         import subprocess
 
         p = subprocess.Popen('echo $XDG_CURRENT_DESKTOP', shell=True,stdout=subprocess.PIPE)
