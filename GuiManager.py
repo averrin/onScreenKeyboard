@@ -19,6 +19,7 @@ class GuiManager():
         self.queue=queue
         self.currentLang=0
         self.keyTrainer=keyTrainer
+	self.block_resizing=False
 
         self.gui_all_buttons=dict()
         self.gui_rows=dict()
@@ -59,6 +60,7 @@ class GuiManager():
         master.bind('<Motion>',self.mouse_entered)
 
     def resize_window_back(self):
+        self.block_resizing=False
         self.resize_y_of_window(self.default_geometry[1])
 
     def parse_geometry(self,in_geometry):
@@ -69,10 +71,15 @@ class GuiManager():
 
     def resize_y_of_window(self,y):
         self.master.geometry(str(self.default_geometry[0])+'x'+str(y))
+        self.master.update_idletasks()
+
 
     def mouse_entered(self,event):
         self.resize_y_of_window(event.y)
-        self.master.after(self.config.hide_timeout,self.resize_window_back)
+        if not self.block_resizing:
+            self.block_resizing=True
+            self.master.after(self.config.hide_timeout,self.resize_window_back)
+
 
     def reconfigure_text_on_buttons(self,config,shift_pressed,lang):
         for row_index in xrange(1,config.getNumOfRows()+1):
