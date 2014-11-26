@@ -6,6 +6,7 @@ from Tkinter import *
 import tkFont
 import time
 
+
 class GuiManager():
     def __init__(self,master,config,queue,keyTrainer):
         self.master=master
@@ -70,6 +71,8 @@ class GuiManager():
         return window_size
 
     def resize_y_of_window(self,y):
+        if y<0:
+            y=0
         self.master.geometry(str(self.default_geometry[0])+'x'+str(y))
         self.master.update_idletasks()
 
