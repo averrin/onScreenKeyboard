@@ -73,7 +73,7 @@ class ConfigManager():
             if 'hide_timeout' in ConfigSectionMap(configParser, "KEYBOARD SETTINGS"):
                 self.hide_timeout=int(ConfigSectionMap(configParser, "KEYBOARD SETTINGS")['hide_timeout'])
             else:
-                self.hide_timeout=1000
+                self.hide_timeout=1500
 
         import subprocess
 

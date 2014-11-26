@@ -12,6 +12,7 @@ class GuiManager():
 
         master.title("Keyboard")
         master.attributes('-topmost', 1)
+        master.resizable(width=FALSE, height=FALSE)
 
         self.shift_key_codes=config.shift_keys
         self.config=config
