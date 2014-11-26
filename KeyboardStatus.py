@@ -10,6 +10,7 @@ class keyboardStatus():
         self.current_lang=0
         self.initQueue()
         self.config=config
+      #  self.numbers=set(['0','1','2','3','4','5','6','7','8','9'])
 
     def initQueue(self):
         self.myQueue=Queue.Queue()
@@ -65,29 +66,21 @@ class keyboardStatus():
 
         self.proc_started=True
 
-        key_presssed_index=0;
-        word_index=0;
-        line=''
+        symbol_index=0
+        press_release_dict={'p':1,'r':0}
+        symbol_pressed=0
 
         while self.proc_started:
             symbol=self.myProcess.stdout.read(1)
-            if symbol!='':
-                if symbol=='\n':
-                    if line!='':
-                        word_index=line.find('press')
-                        if word_index>0:
-                            key_presssed_index=int(line[5+word_index:].strip())
-                            self.myQueue.put((key_presssed_index,1))
-                        else:
-                            word_index=line.find('release')
-                            key_presssed_index=int(line[7+word_index:].strip())
-                            self.myQueue.put((key_presssed_index,0))
-                        line=''
-                else:
-                    line+=symbol
+            if symbol in press_release_dict:
+                symbol_pressed=press_release_dict[symbol]
+                while symbol!='\n':
+                    symbol=self.myProcess.stdout.read(1)
+                    if symbol.isdigit():
+                        symbol_index=symbol_index*10+int(symbol)
 
-
-
+                self.myQueue.put((symbol_index,symbol_pressed))
+                symbol_index=0
 
         self.myProcess.terminate()
 
