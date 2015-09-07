@@ -28,7 +28,7 @@ class ConfigManager():
         self.padx=-1
         self.pady=-1
         self.hide_timeout=1500
-        
+
         self.filename = myParser.get("KEYBOARD SETTINGS",'keyboard_conf_file')
         self.font_name = myParser.get("KEYBOARD SETTINGS",'font_name')
         self.font_size = myParser.getint("KEYBOARD SETTINGS",'buttons_font_size')

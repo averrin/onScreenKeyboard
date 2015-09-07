@@ -2,7 +2,6 @@ import subprocess
 import threading
 import Queue
 import os
-import time
 import signal
 
 class keyboardStatus():
@@ -14,7 +13,7 @@ class keyboardStatus():
     def initQueue(self):
         self.myQueue=Queue.Queue()
 
-    def openReadingLang(self):
+    def doReadingLang(self):
         from subprocess import Popen
 
         self.lang_proc_started=True
@@ -56,7 +55,7 @@ class keyboardStatus():
         if self.config.debug:
             print 'Stopped language determination process!'
 
-    def openReadingKeys(self):
+    def doReadingKeys(self):
         from subprocess import Popen
 
         self.myProcess=Popen('xinput list '+'|'+'   grep -Po \'id=\K\d+(?=.*slave\s*keyboard)\' '+'|'+'   xargs -P0 -n1 xinput test',shell=True,stdout=subprocess.PIPE)
@@ -89,10 +88,10 @@ class keyboardStatus():
             print 'Stopped xinput process!'
 
     def begin_scan(self):
-        newThread=threading.Thread(target=self.openReadingKeys)
-        newThread.start()
-        newThread2=threading.Thread(target=self.openReadingLang)
-        newThread2.start()
+        keysThread=threading.Thread(target=self.doReadingKeys)
+        keysThread.start()
+        langThread=threading.Thread(target=self.doReadingLang)
+        langThread.start()
 
     def stop_scan(self):
         self.proc_started=False
