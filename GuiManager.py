@@ -1,10 +1,8 @@
 __author__ = 'tsa'
 
 import Queue
-from ConfigManager import ConfigManager
 from Tkinter import *
 import tkFont
-import time
 
 
 class GuiManager():
