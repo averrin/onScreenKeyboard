@@ -20,7 +20,7 @@ class GuiManager():
         self.queue=queue
         self.currentLang=0
         self.keyTrainer=keyTrainer
-	self.block_resizing=False
+        self.block_resizing=False
 
         self.gui_all_buttons=dict()
         self.gui_rows=dict()
@@ -65,7 +65,7 @@ class GuiManager():
         self.resize_y_of_window(self.default_geometry[1])
 
     def parse_geometry(self,in_geometry):
-        geometry_x_y=in_geometry[:in_geometry.find("+")]
+        geometry_x_y=in_geometry[:in_geometry.find('+')]
         geometry_x_y=geometry_x_y.split('x')
         window_size=(int(geometry_x_y[0]),int(geometry_x_y[1]))
         return window_size

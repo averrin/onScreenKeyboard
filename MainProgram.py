@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 __author__ = 'tsa'
 from ConfigManager import ConfigManager
 from GuiManager import GuiManager
@@ -11,7 +13,6 @@ class ThreadedClient:
         self.config=ConfigManager()
         self.keyTrainer=keyboardStatus(self.config)
         keyTrainer=self.keyTrainer
-
 
         master.protocol('WM_DELETE_WINDOW', self.kill_and_destroy)
 

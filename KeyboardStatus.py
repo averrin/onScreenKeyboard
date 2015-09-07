@@ -10,18 +10,16 @@ class keyboardStatus():
         self.current_lang=0
         self.initQueue()
         self.config=config
-      #  self.numbers=set(['0','1','2','3','4','5','6','7','8','9'])
 
     def initQueue(self):
         self.myQueue=Queue.Queue()
 
     def openReadingLang(self):
-        #os.system('killall xinput 2>&1 > /dev/null')
+        from subprocess import Popen
 
-        from subprocess import Popen,PIPE
+        self.lang_proc_started=True
         if not self.config.wm_is_unity:
             self.myLangProcess=Popen('while true; do xset -q'+'|'+'grep LED'+'|'+' awk \'{ print $10 }\''+'|'+'cut -c5; sleep 0.02; done',shell=True,stdout=subprocess.PIPE)
-            self.lang_proc_started=True
 
             while self.lang_proc_started:
                 line = self.myLangProcess.stdout.readline()
@@ -34,7 +32,6 @@ class keyboardStatus():
                         self.myQueue.put((-1,lang_index))
         else:
             self.myLangProcess=Popen('while true; do setxkbmap -print '+'|'+' awk -F"+" \'/xkb_symbols/ {print $2}\'; done',shell=True,stdout=subprocess.PIPE)
-            self.lang_proc_started=True
 
             while self.lang_proc_started:
                 line = self.myLangProcess.stdout.readline()
@@ -60,7 +57,7 @@ class keyboardStatus():
             print 'Stopped language determination process!'
 
     def openReadingKeys(self):
-        from subprocess import Popen,PIPE
+        from subprocess import Popen
 
         self.myProcess=Popen('xinput list '+'|'+'   grep -Po \'id=\K\d+(?=.*slave\s*keyboard)\' '+'|'+'   xargs -P0 -n1 xinput test',shell=True,stdout=subprocess.PIPE)
 
@@ -68,7 +65,6 @@ class keyboardStatus():
 
         symbol_index=0
         press_release_dict={'p':1,'r':0}
-        symbol_pressed=0
 
         while self.proc_started:
             symbol=self.myProcess.stdout.read(1)
