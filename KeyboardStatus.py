@@ -93,5 +93,5 @@ class keyboardStatus():
     def stop_scan(self):
         self.proc_started=False
         self.lang_proc_started=False
-        os.kill(self.myProcess.pid,signal.SIGTERM)
+        os.kill(self.myProcess.pid,signal.SIGQUIT)
 
